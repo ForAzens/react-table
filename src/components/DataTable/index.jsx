@@ -5,9 +5,10 @@ import { useTable } from "react-table";
 
 import TableBody from "./TableBody";
 import TableRow from "./TableRow";
+import TableCell from "./TableCell";
 import DataTableProvider from "./context";
 
-function DataTable({ columns, data, children, ...delegate }) {
+function DataTable({ columns, data, children, ...delegate }, ref) {
   const tableValues = useTable({
     columns,
     data
@@ -16,7 +17,7 @@ function DataTable({ columns, data, children, ...delegate }) {
 
   return (
     <DataTableProvider value={tableValues}>
-      <Table {...getTableProps(delegate)}>
+      <Table {...getTableProps(ref, {...delegate})}>
         <thead>
           <tr>
             {headers.map(column => (
@@ -54,7 +55,10 @@ const Table = styled.table`
   }
 `;
 
+
+DataTable = React.memo(DataTable);
 DataTable.Body = TableBody;
 DataTable.Row = TableRow;
+DataTable.Cell = TableCell;
 
 export default DataTable;

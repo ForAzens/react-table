@@ -18,31 +18,22 @@ export function useDataTableBodyContext() {
 function TableBody({ children, ...delegate }) {
   const { getTableBodyProps, rows } = useDataTableContext();
 
+  const childrenArray =
+    Array.isArray(children) && children.length > 1 ? children : [children];
+
   return (
     <tbody {...getTableBodyProps(delegate)}>
-      {typeof children === "function" ? children(rows) : children}
+      {childrenArray.map(child => {
+        if (typeof child === "function") {
+          return rows.map(row => child(row));
+        }
+
+        return child;
+      })}
     </tbody>
   );
 }
 
+TableBody = React.memo(TableBody);
+
 export default TableBody;
-
-// {rows.map(row => {
-
-//   prepareRow(row);
-
-//   return (
-
-//     <tr {...row.getRowProps()}>
-
-//       {row.cells.map(cell => (
-
-//         <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
-
-//       ))}
-
-//     </tr>
-
-//   );
-
-// })}

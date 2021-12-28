@@ -31,16 +31,63 @@ const headers = [
   }
 ];
 
-const data = [{ age: 2, visits: 89, status: "single", progress: 82 }];
+const data = [
+  { age: 2, visits: 89, status: "single", progress: 82 },
+  { age: 2, visits: 89, status: "cells", progress: 82 },
+  { age: 2, visits: 89, status: "single", progress: 82 },
+  { age: 2, visits: 89, status: "single", progress: 82 },
+  { age: 2, visits: 89, status: "single", progress: 82 },
+  { age: 2, visits: 89, status: "single", progress: 82 },
+  { age: 2, visits: 89, status: "single", progress: 82 },
+  { age: 2, visits: 89, status: "cells", progress: 82 },
+  { age: 2, visits: 89, status: "cells", progress: 82 },
+  { age: 2, visits: 89, status: "cells", progress: 82 },
+  { age: 2, visits: 89, status: "cells", progress: 82 },
+  { age: 2, visits: 89, status: "cells", progress: 82 }
+];
+
+function wait(ms) {
+  const start = new Date().getTime();
+
+  let end = start;
+  while (end < start + ms) {
+    end = new Date().getTime();
+  }
+}
+
+function Typography({ children }) {
+  wait(50);
+
+  return <span>{children}</span>;
+}
+
+Typography = React.memo(Typography);
 
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
 function Template(args) {
+  const [, forceUpdate] = React.useReducer(c => c + 1, 0);
   return (
-    <DataTable {...args}>
-      <DataTable.Body>
-        {rows => rows.map(row => <DataTable.Row key={row.id} row={row} />)}
-      </DataTable.Body>
-    </DataTable>
+    <>
+      <button type="button" onClick={forceUpdate}>
+        Force re-render
+      </button>
+      <DataTable {...args}>
+        <DataTable.Body>
+          {row => (
+            <DataTable.Row key={row.id} row={row}>
+              {(value, i) => (
+                <DataTable.Cell key={i}>
+                  <Typography>{value}</Typography>
+                </DataTable.Cell>
+              )}
+            </DataTable.Row>
+          )}
+          <tr>
+            <td>Add button</td>
+          </tr>
+        </DataTable.Body>
+      </DataTable>
+    </>
   );
 }
 
