@@ -2,20 +2,7 @@ import * as React from "react";
 
 import { useDataTableContext } from "./context";
 
-const DataTableBodyContext = React.createContext();
-
-export function useDataTableBodyContext() {
-  const context = React.useContext(DataTableBodyContext);
-  if (context == null) {
-    throw new Error(
-      "useDataTableContext must be used within a DataTable component"
-    );
-  }
-
-  return context;
-}
-
-function TableBody({ children, ...delegate }) {
+function TableBody({ children, ...delegate }, ref) {
   const { getTableBodyProps, rows } = useDataTableContext();
 
   const childrenArray =
@@ -34,6 +21,6 @@ function TableBody({ children, ...delegate }) {
   );
 }
 
-TableBody = React.memo(TableBody);
+TableBody = React.memo(React.forwardRef(TableBody));
 
 export default TableBody;

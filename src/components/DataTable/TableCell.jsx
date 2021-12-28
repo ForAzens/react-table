@@ -1,14 +1,14 @@
 import * as React from "react";
 
-function TableCell({ cell, children, ...delegate }) {
+function TableCell({ cell, children, ...delegate }, ref) {
 
   return (
-    <td {...cell.getCellProps({ ...delegate })}>
-      {children != null ? children : cell.render("Cell")}
+    <td {...cell.getCellProps({ ref, ...delegate })}>
+      {children != null ? children(cell.value) : cell.render("Cell")}
     </td>
   );
 }
 
-TableCell = React.memo(TableCell);
+TableCell = React.memo(React.forwardRef(TableCell));
 
 export default TableCell;

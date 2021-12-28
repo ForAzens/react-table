@@ -55,10 +55,10 @@ function wait(ms) {
   }
 }
 
-function Typography({ children }) {
+function Typography({ children, color }) {
   wait(50);
 
-  return <span>{children}</span>;
+  return <span style={{color }}>{children}</span>;
 }
 
 Typography = React.memo(Typography);
@@ -75,11 +75,16 @@ function Template(args) {
         <DataTable.Body>
           {row => (
             <DataTable.Row key={row.id} row={row}>
-              {(value, i) => (
-                <DataTable.Cell key={i}>
-                  <Typography>{value}</Typography>
-                </DataTable.Cell>
-              )}
+              <DataTable.Cell>
+                {value => <Typography color="red">{value}</Typography>}
+              </DataTable.Cell>
+              <DataTable.Cell>
+                {value => <Typography color="green">{value}</Typography>}
+              </DataTable.Cell>
+              <DataTable.Cell>
+                {value => <Typography color="blue">{value}</Typography>}
+              </DataTable.Cell>
+              <DataTable.Cell />
             </DataTable.Row>
           )}
           <tr>

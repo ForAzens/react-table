@@ -17,7 +17,7 @@ function DataTable({ columns, data, children, ...delegate }, ref) {
 
   return (
     <DataTableProvider value={tableValues}>
-      <Table {...getTableProps(ref, {...delegate})}>
+      <Table {...getTableProps({ref, ...delegate})}>
         <thead>
           <tr>
             {headers.map(column => (
@@ -56,7 +56,7 @@ const Table = styled.table`
 `;
 
 
-DataTable = React.memo(DataTable);
+DataTable = React.memo(React.forwardRef(DataTable));
 DataTable.Body = TableBody;
 DataTable.Row = TableRow;
 DataTable.Cell = TableCell;
