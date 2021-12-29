@@ -27,8 +27,9 @@ const headers = [
   },
   {
     Header: "Profile Progress",
-    accessor: "progress"
-  }
+    accessor: "progress",
+    disableSortBy: true,
+  },
 ];
 
 const data = [
@@ -56,7 +57,7 @@ function wait(ms) {
 }
 
 function Typography({ children, color }) {
-  wait(50);
+  wait(10);
 
   return <span style={{color }}>{children}</span>;
 }

@@ -1,7 +1,7 @@
 import * as React from "react";
 import styled from "styled-components";
 
-import { useTable } from "react-table";
+import { useTable, useSortBy } from "react-table";
 
 import TableBody from "./TableBody";
 import TableRow from "./TableRow";
@@ -9,23 +9,37 @@ import TableCell from "./TableCell";
 import DataTableProvider from "./context";
 
 function DataTable({ columns, data, children, ...delegate }, ref) {
-  const tableValues = useTable({
-    columns,
-    data
-  });
-  const { getTableProps, headers } = tableValues;
+  const tableValues = useTable(
+    {
+      columns,
+      data
+    },
+    useSortBy
+  );
+  const { getTableProps, headers, rows } = tableValues;
 
   return (
     <DataTableProvider value={tableValues}>
-      <Table {...getTableProps({ref, ...delegate})}>
-        <thead>
-          <tr>
-            {headers.map(column => (
-              <th {...column.getHeaderProps()}>{column.render("Header")}</th>
-            ))}
-          </tr>
-        </thead>
-        {children}
+      <Table {...getTableProps({ ref, ...delegate })}>
+          <thead>
+            <tr>
+              {headers.map(column => (
+                <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                  {column.render("Header")}
+                  <span>
+                    {column.isSorted
+                      ? column.isSortedDesc
+                        ? " 🔽"
+                        : " 🔼"
+                      : ""}
+                  </span>
+                </th>
+              ))}
+            </tr>
+          </thead>
+          {React.Children.map(children, child =>
+            React.cloneElement(child, { rows })
+          )}
       </Table>
     </DataTableProvider>
   );
@@ -54,7 +68,6 @@ const Table = styled.table`
     }
   }
 `;
-
 
 DataTable = React.memo(React.forwardRef(DataTable));
 DataTable.Body = TableBody;
