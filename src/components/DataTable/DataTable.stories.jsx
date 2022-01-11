@@ -5,11 +5,12 @@ import DataTable from ".";
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
   title: "Lab/DataTable",
-  component: DataTable
+  component: DataTable,
   // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
-  // argTypes: {
-  //   backgroundColor: { control: 'color' },
-  // },
+  argTypes: {
+    backgroundColor: { control: "color" },
+    enableSort: { control: "boolean" }
+  }
 };
 
 const headers = [
@@ -28,12 +29,12 @@ const headers = [
   {
     Header: "Profile Progress",
     accessor: "progress",
-    disableSortBy: true,
-  },
+    disableSortBy: true
+  }
 ];
 
 const data = [
-  { age: 2, visits: 89, status: "single", progress: 82 },
+  { age: 1, visits: 89, status: "single", progress: 82 },
   { age: 2, visits: 89, status: "cells", progress: 82 },
   { age: 2, visits: 89, status: "single", progress: 82 },
   { age: 2, visits: 89, status: "single", progress: 82 },
@@ -57,22 +58,31 @@ function wait(ms) {
 }
 
 function Typography({ children, color }) {
-  wait(10);
+  wait(50);
 
-  return <span style={{color }}>{children}</span>;
+  return <span style={{ color }}>{children}</span>;
 }
-
+//
 Typography = React.memo(Typography);
 
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
 function Template(args) {
   const [, forceUpdate] = React.useReducer(c => c + 1, 0);
+
   return (
     <>
       <button type="button" onClick={forceUpdate}>
         Force re-render
       </button>
       <DataTable {...args}>
+        <DataTable.Head>
+          <DataTable.Header>
+            {value => <span style={{color: "blue"}}>{value}</span>}
+          </DataTable.Header>
+          <DataTable.Header />
+          <DataTable.Header />
+          <DataTable.Header />
+        </DataTable.Head>
         <DataTable.Body>
           {row => (
             <DataTable.Row key={row.id} row={row}>
@@ -83,7 +93,11 @@ function Template(args) {
                 {value => <Typography color="green">{value}</Typography>}
               </DataTable.Cell>
               <DataTable.Cell>
-                {value => <Typography color="blue">{value}</Typography>}
+                {value => (
+                  <button type="button" onClick={() => {}}>
+                    {value}
+                  </button>
+                )}
               </DataTable.Cell>
               <DataTable.Cell />
             </DataTable.Row>

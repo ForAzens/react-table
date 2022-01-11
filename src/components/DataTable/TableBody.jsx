@@ -2,8 +2,8 @@ import * as React from "react";
 
 import { useDataTableContext } from "./context";
 
-function TableBody({ rows, children, ...delegate }, ref) {
-  const { getTableBodyProps } = useDataTableContext();
+function TableBody({ children, ...delegate }, ref) {
+  const { getTableBodyProps, rows } = useDataTableContext();
 
   const childrenArray =
     Array.isArray(children) && children.length > 1 ? children : [children];

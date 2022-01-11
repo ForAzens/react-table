@@ -18,3 +18,20 @@ function DataTableProvider(props) {
 }
 
 export default DataTableProvider;
+
+const DataTableStateContext = React.createContext();
+
+export function useDataTableState() {
+  const context = React.useContext(DataTableContext);
+  if (context == null) {
+    throw new Error(
+      "useDataTableContext must be used within a DataTable component"
+    );
+  }
+
+  return context;
+}
+
+export function DataTableStateProvider(props) {
+  return <DataTableStateContext.Provider {...props} />
+}

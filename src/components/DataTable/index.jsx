@@ -1,47 +1,42 @@
 import * as React from "react";
 import styled from "styled-components";
 
-import { useTable, useSortBy } from "react-table";
+import { useTable, useSortBy, usePagination } from "react-table";
 
 import TableBody from "./TableBody";
 import TableRow from "./TableRow";
 import TableCell from "./TableCell";
-import DataTableProvider from "./context";
+import TableHead from "./TableHead";
+import TableHeader from "./TableHeader";
+import DataTableProvider, { DataTableStateProvider } from "./context";
 
 function DataTable({ columns, data, children, ...delegate }, ref) {
+  const [state, setState] = React.useState({
+    pagination: {
+      active: false
+    }
+  });
+
   const tableValues = useTable(
     {
       columns,
       data
     },
-    useSortBy
+    useSortBy,
+    usePagination
   );
   const { getTableProps, headers, rows } = tableValues;
 
   return (
-    <DataTableProvider value={tableValues}>
-      <Table {...getTableProps({ ref, ...delegate })}>
-          <thead>
-            <tr>
-              {headers.map(column => (
-                <th {...column.getHeaderProps(column.getSortByToggleProps())}>
-                  {column.render("Header")}
-                  <span>
-                    {column.isSorted
-                      ? column.isSortedDesc
-                        ? " 🔽"
-                        : " 🔼"
-                      : ""}
-                  </span>
-                </th>
-              ))}
-            </tr>
-          </thead>
+    <DataTableStateProvider value={[state, setState]}>
+      <DataTableProvider value={tableValues}>
+        <Table {...getTableProps({ ref, ...delegate })}>
           {React.Children.map(children, child =>
-            React.cloneElement(child, { rows })
+            React.cloneElement(child, { rows, columns: headers })
           )}
-      </Table>
-    </DataTableProvider>
+        </Table>
+      </DataTableProvider>
+    </DataTableStateProvider>
   );
 }
 
@@ -73,5 +68,7 @@ DataTable = React.memo(React.forwardRef(DataTable));
 DataTable.Body = TableBody;
 DataTable.Row = TableRow;
 DataTable.Cell = TableCell;
+DataTable.Head = TableHead;
+DataTable.Header = TableHeader;
 
 export default DataTable;
