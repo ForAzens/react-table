@@ -15,6 +15,10 @@
     "LICENSE.md"
   ],
   "main": "./dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ForAzens/react-table"
+  },
   "scripts": {
     "build": "rollup -c",
     "storybook": "start-storybook -p 6006",
