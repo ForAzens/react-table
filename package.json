@@ -5,7 +5,7 @@
   "author": "forazens",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "rollup -c",
     "preview": "vite preview",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
@@ -17,7 +17,14 @@
     "styled-components": "^5.3.3"
   },
   "devDependencies": {
-    "@babel/core": "^7.16.5",
+    "@babel/cli": "^7.16.8",
+    "@babel/core": "^7.16.12",
+    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-react": "^7.16.7",
+    "@rollup/plugin-babel": "^5.3.0",
+    "@rollup/plugin-commonjs": "^21.0.1",
+    "@rollup/plugin-node-resolve": "^13.1.3",
+    "@rollup/plugin-typescript": "^8.3.0",
     "@storybook/addon-actions": "^6.4.9",
     "@storybook/addon-essentials": "^6.4.9",
     "@storybook/addon-links": "^6.4.9",
@@ -32,6 +39,8 @@
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
     "prettier": "^2.5.1",
+    "rollup": "^2.66.1",
+    "rollup-plugin-size-snapshot": "^0.12.0",
     "vite": "^2.7.2"
   }
 }
