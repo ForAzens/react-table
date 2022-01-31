@@ -22,7 +22,7 @@ export default DataTableProvider;
 const DataTableStateContext = React.createContext();
 
 export function useDataTableState() {
-  const context = React.useContext(DataTableContext);
+  const context = React.useContext(DataTableStateContext);
   if (context == null) {
     throw new Error(
       "useDataTableContext must be used within a DataTable component"

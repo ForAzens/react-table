@@ -1,11 +1,7 @@
 import * as React from "react";
 import styled from "styled-components";
 
-import { useTable, useSortBy, usePagination } from "react-table";
-
 function TableHeader({ column, children, ...delegate }, ref) {
-  console.log(column);
-
   const sortedIconContent = () => {
     if (!column.isSorted) {
       return "";
@@ -19,8 +15,10 @@ function TableHeader({ column, children, ...delegate }, ref) {
   };
 
   return (
-    <th {...column.getHeaderProps(column.getSortByToggleProps({...delegate}))}>
-      {children != null ? children(column.Header) : column.render("Header")}
+    <th
+      {...column.getHeaderProps(column.getSortByToggleProps({ ...delegate }))}
+    >
+      {column.render("Header")}
       {sortedIconContent()}
     </th>
   );
