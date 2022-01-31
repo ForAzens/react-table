@@ -10,16 +10,14 @@ import TableHead from "./TableHead";
 import TableHeader from "./TableHeader";
 import DataTableProvider, { DataTableStateProvider } from "./context";
 
-function DataTable({ columns, data, children, ...delegate }, ref) {
-  const [state, setState] = React.useState({
-    pagination: {
-      active: false
-    }
-  });
+import { defaultState, reducer } from "./reducer";
+
+function DataTable({ data, children, ...delegate }, ref) {
+  const [state, dispatch] = React.useReducer(reducer, defaultState);
 
   const tableValues = useTable(
     {
-      columns,
+      columns: state.headers,
       data
     },
     useSortBy,
@@ -28,7 +26,7 @@ function DataTable({ columns, data, children, ...delegate }, ref) {
   const { getTableProps, headers, rows } = tableValues;
 
   return (
-    <DataTableStateProvider value={[state, setState]}>
+    <DataTableStateProvider value={[state, dispatch]}>
       <DataTableProvider value={tableValues}>
         <Table {...getTableProps({ ref, ...delegate })}>
           {React.Children.map(children, child =>

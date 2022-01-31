@@ -13,26 +13,6 @@ export default {
   }
 };
 
-const headers = [
-  {
-    Header: "Age",
-    accessor: "age"
-  },
-  {
-    Header: "Visits",
-    accessor: "visits"
-  },
-  {
-    Header: "Status",
-    accessor: "status"
-  },
-  {
-    Header: "Profile Progress",
-    accessor: "progress",
-    disableSortBy: true
-  }
-];
-
 const data = [
   { age: 1, visits: 89, status: "single", progress: 82 },
   { age: 2, visits: 89, status: "cells", progress: 82 },
@@ -76,12 +56,12 @@ function Template(args) {
       </button>
       <DataTable {...args}>
         <DataTable.Head>
-          <DataTable.Header>
-            {value => <span style={{color: "blue"}}>{value}</span>}
+          <DataTable.Header accessor="age">
+            <span style={{ color: "blue" }}>Age</span>
           </DataTable.Header>
-          <DataTable.Header />
-          <DataTable.Header />
-          <DataTable.Header />
+          <DataTable.Header accessor="visits">Visits</DataTable.Header>
+          <DataTable.Header accessor="status">Status</DataTable.Header>
+          <DataTable.Header accessor="progress">Progress</DataTable.Header>
         </DataTable.Head>
         <DataTable.Body>
           {row => (
@@ -113,6 +93,5 @@ function Template(args) {
 
 export const Primary = Template.bind({});
 Primary.args = {
-  columns: headers,
   data
 };
