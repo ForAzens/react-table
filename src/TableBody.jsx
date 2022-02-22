@@ -3,7 +3,7 @@ import * as React from "react";
 import { useDataTableContext } from "./context";
 
 function TableBody({ children, ...delegate }, ref) {
-  const { getTableBodyProps, rows } = useDataTableContext();
+  const { getTableBodyProps, rows, page } = useDataTableContext();
 
   const childrenArray =
     Array.isArray(children) && children.length > 1 ? children : [children];
@@ -12,7 +12,7 @@ function TableBody({ children, ...delegate }, ref) {
     <tbody {...getTableBodyProps({ ref, ...delegate})}>
       {childrenArray.map(child => {
         if (typeof child === "function") {
-          return rows.map(row => child(row));
+          return page.map(row => child(row));
         }
 
         return child;
@@ -21,6 +21,6 @@ function TableBody({ children, ...delegate }, ref) {
   );
 }
 
-TableBody = React.memo(React.forwardRef(TableBody));
+TableBody = React.forwardRef(TableBody);
 
 export default TableBody;

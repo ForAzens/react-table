@@ -18,7 +18,10 @@ function DataTable({ data, children, ...delegate }, ref) {
   const tableValues = useTable(
     {
       columns: state.headers,
-      data
+      data,
+      initialState: {
+        pageSize: 10,
+      },
     },
     useSortBy,
     usePagination
@@ -29,7 +32,7 @@ function DataTable({ data, children, ...delegate }, ref) {
     <DataTableStateProvider value={[state, dispatch]}>
       <DataTableProvider value={tableValues}>
         <Table {...getTableProps({ ref, ...delegate })}>
-          {React.Children.map(children, child =>
+          {React.Children.map(children, (child) =>
             React.cloneElement(child, { rows, columns: headers })
           )}
         </Table>

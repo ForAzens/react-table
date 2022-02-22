@@ -1,6 +1,7 @@
 import React from "react";
 
 import DataTable from "..";
+import Pagination from "../Pagination";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -26,6 +27,32 @@ const data = [
   { age: 2, visits: 89, status: "cells", progress: 82 },
   { age: 2, visits: 89, status: "cells", progress: 82 },
   { age: 2, visits: 89, status: "cells", progress: 82 },
+
+  { age: 1, visits: 9, status: "single", progress: 82 },
+  { age: 2, visits: 8, status: "cells", progress: 82 },
+  { age: 2, visits: 8, status: "single", progress: 82 },
+  { age: 2, visits: 89, status: "single", progress: 82 },
+  { age: 2, visits: 9, status: "single", progress: 82 },
+  { age: 2, visits: 89, status: "single", progress: 82 },
+  { age: 2, visits: 9, status: "single", progress: 82 },
+  { age: 2, visits: 89, status: "cells", progress: 82 },
+  { age: 2, visits: 9, status: "cells", progress: 82 },
+  { age: 2, visits: 89, status: "cells", progress: 82 },
+  { age: 2, visits: 9, status: "cells", progress: 82 },
+  { age: 2, visits: 9, status: "cells", progress: 82 },
+
+  { age: 1, visits: 89, status: "single", progress: 82 },
+  { age: 2, visits: 9, status: "cells", progress: 82 },
+  { age: 2, visits: 89, status: "single", progress: 82 },
+  { age: 2, visits: 9, status: "single", progress: 82 },
+  { age: 2, visits: 9, status: "single", progress: 82 },
+  { age: 2, visits: 89, status: "single", progress: 82 },
+  { age: 2, visits: 89, status: "single", progress: 82 },
+  { age: 2, visits: 89, status: "cells", progress: 82 },
+  { age: 2, visits: 9, status: "cells", progress: 82 },
+  { age: 2, visits: 9, status: "cells", progress: 82 },
+  { age: 2, visits: 9, status: "cells", progress: 82 },
+  { age: 2, visits: 89, status: "cells", progress: 82 },
 ];
 
 function wait(ms) {
@@ -38,7 +65,7 @@ function wait(ms) {
 }
 
 function Typography({ children, color }) {
-  wait(50);
+  // wait(50);
 
   return <span style={{ color }}>{children}</span>;
 }
@@ -88,6 +115,16 @@ function Template(args) {
             <td>Add button</td>
           </tr>
         </DataTable.Body>
+
+        <Pagination>
+          {({ nextPage, previousPage, pageIndex }) => (
+            <>
+              <button onClick={() => previousPage()}>Previous</button>
+              <span style={{ margin: "0 8px" }}>{pageIndex}</span>
+              <button onClick={() => nextPage()}>Next</button>
+            </>
+          )}
+        </Pagination>
       </DataTable>
     </>
   );
