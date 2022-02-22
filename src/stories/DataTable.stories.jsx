@@ -1,6 +1,6 @@
 import React from "react";
 
-import DataTable from ".";
+import DataTable from "..";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -9,8 +9,8 @@ export default {
   // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
   argTypes: {
     backgroundColor: { control: "color" },
-    enableSort: { control: "boolean" }
-  }
+    enableSort: { control: "boolean" },
+  },
 };
 
 const data = [
@@ -25,7 +25,7 @@ const data = [
   { age: 2, visits: 89, status: "cells", progress: 82 },
   { age: 2, visits: 89, status: "cells", progress: 82 },
   { age: 2, visits: 89, status: "cells", progress: 82 },
-  { age: 2, visits: 89, status: "cells", progress: 82 }
+  { age: 2, visits: 89, status: "cells", progress: 82 },
 ];
 
 function wait(ms) {
@@ -47,7 +47,7 @@ Typography = React.memo(Typography);
 
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
 function Template(args) {
-  const [, forceUpdate] = React.useReducer(c => c + 1, 0);
+  const [state, forceUpdate] = React.useReducer((c) => c + 1, 0);
 
   return (
     <>
@@ -61,25 +61,27 @@ function Template(args) {
           </DataTable.Header>
           <DataTable.Header accessor="visits">Visits</DataTable.Header>
           <DataTable.Header accessor="status">Status</DataTable.Header>
-          <DataTable.Header accessor="progress">Progress</DataTable.Header>
+          {state % 2 === 0 && (
+            <DataTable.Header accessor="progress">Progress</DataTable.Header>
+          )}
         </DataTable.Head>
         <DataTable.Body>
-          {row => (
+          {(row) => (
             <DataTable.Row key={row.id} row={row}>
               <DataTable.Cell>
-                {value => <Typography color="red">{value}</Typography>}
+                {(value) => <Typography color="red">{value}</Typography>}
               </DataTable.Cell>
               <DataTable.Cell>
-                {value => <Typography color="green">{value}</Typography>}
+                {(value) => <Typography color="green">{value}</Typography>}
               </DataTable.Cell>
               <DataTable.Cell>
-                {value => (
+                {(value) => (
                   <button type="button" onClick={() => {}}>
                     {value}
                   </button>
                 )}
               </DataTable.Cell>
-              <DataTable.Cell />
+              {state % 2 === 0 && <DataTable.Cell />}
             </DataTable.Row>
           )}
           <tr>
@@ -93,5 +95,5 @@ function Template(args) {
 
 export const Primary = Template.bind({});
 Primary.args = {
-  data
+  data,
 };
